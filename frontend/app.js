@@ -1,5 +1,8 @@
 // 前端逻辑
-const API_BASE = 'http://localhost:3000/api';
+// 自动检测环境：本地开发使用 localhost，部署后使用相对路径
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000/api'
+  : '/api';
 
 document.getElementById('matchBtn').addEventListener('click', async () => {
   const painPoint = document.getElementById('painPointInput').value.trim();
