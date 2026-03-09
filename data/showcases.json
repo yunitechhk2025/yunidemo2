@@ -1,0 +1,43 @@
+[
+  {
+    "id": "showcase-001",
+    "triggers": ["scan", "ocr", "written order", "whatsapp", "pos", "handwritten", "order scan", "cfm"],
+    "industry": "Retail",
+    "solution": {
+      "id": "showcase-orderscan",
+      "name": "OrderScan POS Integration",
+      "painPoint": "Scan written orders, import to POS, export orders to WhatsApp for client confirmation with 98% OCR accuracy",
+      "description": "Simplified app to scan orders, import to POS, and export to WhatsApp for confirmation with OCR support.",
+      "features": [
+        "OCR scanning of handwritten orders with ~98% accuracy",
+        "Import orders into POS system",
+        "Export order summary to WhatsApp for customer confirmation"
+      ],
+      "development": {
+        "price": 65000,
+        "currency": "HKD",
+        "duration": "6-8 weeks",
+        "techStack": ["React Native", "Node.js", "Google Vision OCR", "WhatsApp Business API"],
+        "resources": [
+          {"type": "Cloud Service", "name": "Cloud Server (2 Core 4G)", "specs": "2 Core 4G", "link": "/platform/services/cloud"},
+          {"type": "OCR API", "name": "Google Cloud Vision API", "link": "/platform/services/ai"},
+          {"type": "Messaging API", "name": "WhatsApp Business API", "link": "/platform/services/whatsapp"}
+        ],
+        "humanResources": [
+          {"role": "Full-stack Developer", "count": 1, "duration": "6-8 weeks", "link": "/platform/talents/fullstack"}
+        ]
+      },
+      "maintenance": {
+        "monthlyPrice": 4500,
+        "currency": "HKD",
+        "resources": [
+          {"type": "Cloud Server", "name": "Monthly server hosting", "monthlyCost": 800, "link": "/platform/services/cloud"},
+          {"type": "OCR API", "name": "Google Vision usage fee", "monthlyCost": 1200, "link": "/platform/services/ai"},
+          {"type": "WhatsApp API", "name": "WhatsApp Business messaging fee", "monthlyCost": 1000, "link": "/platform/services/whatsapp"},
+          {"type": "Tech Support", "name": "Monthly maintenance", "monthlyCost": 500, "link": "/platform/services/support"}
+        ]
+      }
+    },
+    "reasoning": "OCR-powered order scanning with POS integration and WhatsApp confirmation flow"
+  }
+]

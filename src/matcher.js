@@ -6,6 +6,7 @@ const GeminiService = require('./gemini-service');
 class SolutionMatcher {
   constructor() {
     this.solutions = this.loadSolutions();
+    this.showcases = this.loadShowcases();
     this.gemini = new GeminiService();
   }
 
@@ -15,8 +16,44 @@ class SolutionMatcher {
     return JSON.parse(data);
   }
 
+  loadShowcases() {
+    const dataPath = path.join(__dirname, '../data/showcases.json');
+    const data = fs.readFileSync(dataPath, 'utf8');
+    return JSON.parse(data);
+  }
+
+  // 检查是否命中 showcase 固定结果
+  matchShowcase(userInput) {
+    const input = userInput.toLowerCase();
+    for (const showcase of this.showcases) {
+      const matchCount = showcase.triggers.filter(trigger => input.includes(trigger.toLowerCase())).length;
+      if (matchCount >= 2) {
+        console.log(`🎯 命中 Showcase: ${showcase.solution.name} (匹配关键词: ${matchCount}个)`);
+        return showcase;
+      }
+    }
+    return null;
+  }
+
   // 主匹配函数 - AI 自主生成模式
   async matchSolutions(userInput, model = null, lang = 'zh-CN') {
+    // 优先检查 showcase 固定结果
+    const showcase = this.matchShowcase(userInput);
+    if (showcase) {
+      return [{
+        score: 100,
+        industry: showcase.industry,
+        solution: showcase.solution,
+        aiAnalysis: {
+          reasoning: showcase.reasoning,
+          confidence: 1.0,
+          customRecommendation: showcase.reasoning,
+          generatedByAI: false,
+          isShowcase: true
+        }
+      }];
+    }
+
     // 如果指定了模型，切换到该模型
     if (model) {
       this.gemini.setModel(model);
