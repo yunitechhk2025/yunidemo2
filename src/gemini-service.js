@@ -192,6 +192,21 @@ ${industryList}
     }
   }
 
+  // 强制开发周期不少于4周（后端校验）
+  enforceMinDuration(solution, targetLang) {
+    const minDuration = targetLang.includes('Chinese') ? '4-6周' : '4-6 weeks';
+    const dev = solution?.solution?.development;
+    if (!dev?.duration) return;
+    const d = dev.duration;
+    // 禁止：2周、3周、2-3周、3-4周、1-2周、2 weeks、3 weeks 等
+    const forbidden = /\b[123]\s*[-~到]\s*[234]\s*周|\b[123]\s*周|\b[12]\s*[-~]\s*[23]\s*weeks?|\b[123]\s*weeks?\b/i;
+    if (forbidden.test(d)) {
+      dev.duration = minDuration;
+      if (dev.humanResources?.[0]) dev.humanResources[0].duration = minDuration;
+      console.log(`⚠️ 周期已修正: "${d}" → "${minDuration}"`);
+    }
+  }
+
   // AI 自主生成完整解决方案
   async generateFullSolution(userInput, lang = 'zh-CN') {
     if (!this.enabled) {
@@ -214,7 +229,7 @@ IMPORTANT - OUTPUT LANGUAGE:
 
 IMPORTANT CONSTRAINTS:
 - Maximum budget: LESS than 100,000 HKD (max 95,000 HKD)
-- Minimum development duration: 4 weeks (4周起)
+- Minimum development duration: STRICTLY 4 weeks or more. NEVER use 2 weeks, 3 weeks, or 2-3 weeks. Use 4-6 weeks, 6-8 weeks, 8-10 weeks etc.
 - Team size: ONLY 1 full-stack developer
 - If the requirement is too complex for this budget, simplify the solution to fit within constraints
 
@@ -235,7 +250,7 @@ Generate a JSON response following this structure (DO NOT copy example values, c
     "development": {
       "price": "[USE ROUND: 30000/35000/40000/45000/50000/55000/60000/65000/70000/75000/80000/85000/90000/95000, MAX 95000]",
       "currency": "HKD",
-      "duration": "[Duration in user's language, MIN 4 weeks, e.g. 4-6 weeks / 4-6周]",
+      "duration": "[MUST be 4+ weeks, e.g. 4-6 weeks / 4-6周, 6-8 weeks / 6-8周. FORBIDDEN: 2 weeks, 3 weeks, 2-3 weeks]",
       "techStack": ["React/Vue", "Node.js", "PostgreSQL/MySQL"],
       "resources": [
         {"type": "Cloud Service", "name": "[Service name]", "specs": "[Config]", "link": "/platform/services/cloud"},
@@ -265,7 +280,7 @@ RULES:
    - Simple (landing page, basic CRUD): 30000/35000/40000/45000/50000 HKD
    - Medium (small app, basic features): 50000/55000/60000/65000/70000 HKD  
    - Complex (full system, AI features): 70000/75000/80000/85000/90000/95000 HKD
-3. Development duration MUST be at least 4 weeks (4周起)
+3. Development duration: FORBIDDEN to use 2周/3周/2-3周/2 weeks/3 weeks. ONLY use 4周起: 4-6周、6-8周、8-10周 (or 4-6 weeks, 6-8 weeks in English)
 4. Human resources MUST be exactly 1 full-stack developer
 5. If requirement is too complex for 95,000 HKD budget:
    - Set "isSimplified": true
@@ -298,6 +313,8 @@ RULES:
       const jsonMatch = responseText.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         const solution = JSON.parse(jsonMatch[0]);
+        // 强制校验：开发周期不少于4周
+        this.enforceMinDuration(solution, targetLang);
         console.log('🤖 AI 生成方案:', solution.solution?.name);
         return solution;
       }
