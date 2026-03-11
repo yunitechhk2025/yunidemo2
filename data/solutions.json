@@ -14,14 +14,14 @@
           "development": {
             "price": 80000,
             "currency": "HKD",
-            "duration": "1-2个月",
+            "duration": "6-8周",
             "techStack": ["Vue.js", "Node.js", "MySQL"],
             "resources": [
               {"type": "算力服务", "name": "阿里云轻量服务器", "specs": "2核4G", "link": "/platform/services/cloud"},
               {"type": "芋泥大模型折扣服务", "name": "智能推荐API", "link": "/platform/services/ai"}
             ],
             "humanResources": [
-              {"role": "全栈工程师", "count": 1, "duration": "2个月", "link": "/platform/talents/fullstack"}
+              {"role": "全栈工程师", "count": 1, "duration": "6-8周", "link": "/platform/talents/fullstack"}
             ]
           },
           "maintenance": {
@@ -51,14 +51,14 @@
           "development": {
             "price": 70000,
             "currency": "HKD",
-            "duration": "1-2个月",
+            "duration": "6-8周",
             "techStack": ["微信小程序", "Node.js", "MongoDB"],
             "resources": [
               {"type": "算力服务", "name": "腾讯云轻量服务器", "specs": "2核4G", "link": "/platform/services/cloud"},
               {"type": "芋泥大模型折扣服务", "name": "智能推荐API", "link": "/platform/services/ai"}
             ],
             "humanResources": [
-              {"role": "全栈工程师", "count": 1, "duration": "2个月", "link": "/platform/talents/fullstack"}
+              {"role": "全栈工程师", "count": 1, "duration": "6-8周", "link": "/platform/talents/fullstack"}
             ]
           },
           "maintenance": {
@@ -88,14 +88,14 @@
           "development": {
             "price": 65000,
             "currency": "HKD",
-            "duration": "1-2个月",
+            "duration": "6-8周",
             "techStack": ["React", "Node.js", "PostgreSQL"],
             "resources": [
               {"type": "算力服务", "name": "阿里云ECS", "specs": "2核4G", "link": "/platform/services/cloud"},
               {"type": "芋泥大模型折扣服务", "name": "智能客服API", "link": "/platform/services/ai"}
             ],
             "humanResources": [
-              {"role": "全栈工程师", "count": 1, "duration": "1.5个月", "link": "/platform/talents/fullstack"}
+              {"role": "全栈工程师", "count": 1, "duration": "6-8周", "link": "/platform/talents/fullstack"}
             ]
           },
           "maintenance": {
@@ -125,14 +125,14 @@
           "development": {
             "price": 85000,
             "currency": "HKD",
-            "duration": "2个月",
+            "duration": "6-8周",
             "techStack": ["Vue.js", "Node.js", "MySQL"],
             "resources": [
               {"type": "算力服务", "name": "阿里云ECS", "specs": "2核4G", "link": "/platform/services/cloud"},
               {"type": "芋泥大模型折扣服务", "name": "智能助教API", "link": "/platform/services/ai"}
             ],
             "humanResources": [
-              {"role": "全栈工程师", "count": 1, "duration": "2个月", "link": "/platform/talents/fullstack"}
+              {"role": "全栈工程师", "count": 1, "duration": "6-8周", "link": "/platform/talents/fullstack"}
             ]
           },
           "maintenance": {
@@ -162,14 +162,14 @@
           "development": {
             "price": 90000,
             "currency": "HKD",
-            "duration": "2个月",
+            "duration": "6-8周",
             "techStack": ["React", "Node.js", "PostgreSQL"],
             "resources": [
               {"type": "算力服务", "name": "阿里云ECS", "specs": "2核4G", "link": "/platform/services/cloud"},
               {"type": "芋泥大模型折扣服务", "name": "智能调度API", "link": "/platform/services/ai"}
             ],
             "humanResources": [
-              {"role": "全栈工程师", "count": 1, "duration": "2个月", "link": "/platform/talents/fullstack"}
+              {"role": "全栈工程师", "count": 1, "duration": "6-8周", "link": "/platform/talents/fullstack"}
             ]
           },
           "maintenance": {
@@ -199,14 +199,14 @@
           "development": {
             "price": 80000,
             "currency": "HKD",
-            "duration": "1-2个月",
+            "duration": "6-8周",
             "techStack": ["Vue.js", "Node.js", "MySQL"],
             "resources": [
               {"type": "算力服务", "name": "云服务器", "specs": "2核4G", "link": "/platform/services/cloud"},
               {"type": "芋泥大模型折扣服务", "name": "智能分析API", "link": "/platform/services/ai"}
             ],
             "humanResources": [
-              {"role": "全栈工程师", "count": 1, "duration": "2个月", "link": "/platform/talents/fullstack"}
+              {"role": "全栈工程师", "count": 1, "duration": "6-8周", "link": "/platform/talents/fullstack"}
             ]
           },
           "maintenance": {
