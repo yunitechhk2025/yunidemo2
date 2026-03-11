@@ -9,8 +9,8 @@ const i18n = {
     loading: 'AI 正在分析您的需求',
     industries: ['零售', '餐饮', '物流', '医疗', '教育', '金融', '美容', '酒店', '制造', '更多'],
     more: '更多',
-    noResults: '未找到匹配的解决方案',
-    noResultsTip: '请尝试使用不同的关键词描述您的痛点',
+    noResults: '暂无生成结果',
+    noResultsTip: '请重试，或检查网络与 API 配置',
     painPointLabel: '解决痛点：',
     coreFeatures: '✦ 核心功能',
     devQuote: '📦 开发报价',
@@ -20,6 +20,7 @@ const i18n = {
     resources: '所需资源',
     humanResources: '人力配置',
     maintenance: '🔧 运维成本',
+    maintenanceDuration: '维护周期',
     monthlyFee: '每月维护费用',
     month: '月',
     person: '人',
@@ -36,8 +37,8 @@ const i18n = {
     loading: 'AI 正在分析您的需求',
     industries: ['零售', '餐飲', '物流', '醫療', '教育', '金融', '美容', '酒店', '製造', '更多'],
     more: '更多',
-    noResults: '未找到匹配的解決方案',
-    noResultsTip: '請嘗試使用不同的關鍵詞描述您的痛點',
+    noResults: '暫無生成結果',
+    noResultsTip: '請重試，或檢查網絡與 API 配置',
     painPointLabel: '解決痛點：',
     coreFeatures: '✦ 核心功能',
     devQuote: '📦 開發報價',
@@ -47,6 +48,7 @@ const i18n = {
     resources: '所需資源',
     humanResources: '人力配置',
     maintenance: '🔧 運維成本',
+    maintenanceDuration: '維護週期',
     monthlyFee: '每月維護費用',
     month: '月',
     person: '人',
@@ -63,8 +65,8 @@ const i18n = {
     loading: 'AI is analyzing your requirements',
     industries: ['Retail', 'F&B', 'Logistics', 'Healthcare', 'Education', 'Finance', 'Beauty', 'Hotel', 'Manufacturing', 'More'],
     more: 'More',
-    noResults: 'No matching solutions found',
-    noResultsTip: 'Please try different keywords to describe your pain points',
+    noResults: 'No result generated',
+    noResultsTip: 'Please retry or check network and API configuration',
     painPointLabel: 'Pain Point: ',
     coreFeatures: '✦ Core Features',
     devQuote: '📦 Development Quote',
@@ -74,6 +76,7 @@ const i18n = {
     resources: 'Resources Required',
     humanResources: 'Human Resources',
     maintenance: '🔧 Maintenance Cost',
+    maintenanceDuration: 'Maintenance Duration',
     monthlyFee: 'Monthly Fee',
     month: 'mo',
     person: '',
@@ -267,9 +270,15 @@ function displayResults(data) {
 
         <div class="maintenance-section">
           <h4>${t('maintenance')}</h4>
-          <div class="info-item" style="margin-bottom: 20px;">
-            <span class="label">${t('monthlyFee')}</span>
-            <span class="value price">HKD ${formatPrice(maint.monthlyPrice)}/${t('month')}</span>
+          <div class="info-grid" style="margin-bottom: 20px;">
+            <div class="info-item">
+              <span class="label">${t('monthlyFee')}</span>
+              <span class="value price">HKD ${formatPrice(maint.monthlyPrice)}/${t('month')}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">${t('maintenanceDuration')}</span>
+              <span class="value">${maint.duration || '-'}</span>
+            </div>
           </div>
 
           <div class="resources">
