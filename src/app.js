@@ -121,10 +121,10 @@ Return ONLY valid JSON, no other text. Use this structure:
   const completion = await client.chat.completions.create({
     model: model || process.env.OPENAI_MODEL || 'gpt-4o-mini',
     messages: [
-      { role: 'system', content: 'You are a professional solution architect. Output valid JSON only. All text fields must be in the language specified by the user prompt.' },
+      { role: 'system', content: 'You are a professional IT solution architect. You MUST generate a solution that DIRECTLY addresses the user\'s specific pain point. NEVER invent unrelated scenarios or ignore the user input. The solution name, painPoint summary, description, and features must all be clearly derived from what the user described. Output valid JSON only. All text fields must be in the language specified by the user prompt.' },
       { role: 'user', content: prompt }
     ],
-    temperature: 0.7,
+    temperature: 0.4,
     max_tokens: 1800
   });
 
