@@ -7,7 +7,6 @@ node_modules/
 # 日志
 *.log
 npm-debug.log*
-logs/
 
 # 操作系统
 .DS_Store

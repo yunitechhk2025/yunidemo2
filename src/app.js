@@ -121,10 +121,10 @@ Return ONLY valid JSON, no other text. Use this structure:
   const completion = await client.chat.completions.create({
     model: model || process.env.OPENAI_MODEL || 'gpt-4o-mini',
     messages: [
-      { role: 'system', content: 'You are a professional IT solution architect. You MUST generate a solution that DIRECTLY addresses the user\'s specific pain point. NEVER invent unrelated scenarios or ignore the user input. The solution name, painPoint summary, description, and features must all be clearly derived from what the user described. Output valid JSON only. All text fields must be in the language specified by the user prompt.' },
+      { role: 'system', content: 'You are a professional solution architect. Output valid JSON only. All text fields must be in the language specified by the user prompt.' },
       { role: 'user', content: prompt }
     ],
-    temperature: 0.4,
+    temperature: 0.7,
     max_tokens: 1800
   });
 
@@ -155,8 +155,8 @@ function createApp() {
   });
 
   app.post('/api/match', async (req, res) => {
-    const { painPoint, lang, model } = req.body || {};
     try {
+      const { painPoint, lang, model } = req.body || {};
       if (!painPoint || !painPoint.trim()) {
         return res.status(400).json({ success: false, error: '请输入行业痛点' });
       }
@@ -165,32 +165,32 @@ function createApp() {
       }
 
       const generated = await generateSolution(client, painPoint.trim(), lang || 'zh-CN', model);
-      const responseData = {
-        input: painPoint,
-        model: model || process.env.OPENAI_MODEL || 'gpt-4o-mini',
-        matchCount: 1,
-        aiEnabled: true,
-        solutions: [
-          {
-            score: 95,
-            industry: generated.industry,
-            solution: generated.solution,
-            aiAnalysis: {
-              reasoning: generated.reasoning,
-              confidence: 0.95,
-              customRecommendation: generated.reasoning,
-              generatedByAI: true
+      return res.json({
+        success: true,
+        data: {
+          input: painPoint,
+          model: model || process.env.OPENAI_MODEL || 'gpt-4o-mini',
+          matchCount: 1,
+          aiEnabled: true,
+          solutions: [
+            {
+              score: 95,
+              industry: generated.industry,
+              solution: generated.solution,
+              aiAnalysis: {
+                reasoning: generated.reasoning,
+                confidence: 0.95,
+                customRecommendation: generated.reasoning,
+                generatedByAI: true
+              }
             }
-          }
-        ]
-      };
-
-      return res.json({ success: true, data: responseData });
+          ]
+        }
+      });
     } catch (error) {
       console.error('❌ 生成失败:', error.message);
       console.error('   status:', error.status);
       console.error('   code:', error.code);
-
       return res.status(500).json({ success: false, error: error.message || '生成失败' });
     }
   });
