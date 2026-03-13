@@ -1,32 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
 const OpenAI = require('openai');
-
-const IS_SERVERLESS = !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
-const LOGS_DIR = path.join(__dirname, '../logs');
-
-if (!IS_SERVERLESS) {
-  try { if (!fs.existsSync(LOGS_DIR)) fs.mkdirSync(LOGS_DIR, { recursive: true }); } catch {}
-}
-
-function saveLog(input, output) {
-  if (IS_SERVERLESS) {
-    console.log('[LOG]', JSON.stringify({ input, output }));
-    return;
-  }
-  try {
-    const now = new Date();
-    const ts = now.toISOString().replace(/[:.]/g, '-');
-    const record = { timestamp: now.toISOString(), input, output };
-    const filename = path.join(LOGS_DIR, `${ts}.json`);
-    fs.writeFileSync(filename, JSON.stringify(record, null, 2), 'utf8');
-    console.log(`📝 已保存日志: ${filename}`);
-  } catch (e) {
-    console.warn('⚠️ 日志写入失败:', e.message);
-  }
-}
 
 function createOpenAIClient() {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -210,21 +185,11 @@ function createApp() {
         ]
       };
 
-      saveLog(
-        { painPoint, lang: lang || 'zh-CN', model: model || process.env.OPENAI_MODEL },
-        responseData
-      );
-
       return res.json({ success: true, data: responseData });
     } catch (error) {
       console.error('❌ 生成失败:', error.message);
       console.error('   status:', error.status);
       console.error('   code:', error.code);
-
-      saveLog(
-        { painPoint, lang: lang || 'zh-CN', model: model || process.env.OPENAI_MODEL },
-        { error: error.message }
-      );
 
       return res.status(500).json({ success: false, error: error.message || '生成失败' });
     }
