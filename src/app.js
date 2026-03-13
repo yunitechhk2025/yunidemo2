@@ -1,7 +1,24 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const OpenAI = require('openai');
+
+const LOGS_DIR = path.join(__dirname, '../logs');
+if (!fs.existsSync(LOGS_DIR)) fs.mkdirSync(LOGS_DIR, { recursive: true });
+
+function saveLog(input, output) {
+  const now = new Date();
+  const ts = now.toISOString().replace(/[:.]/g, '-');
+  const record = {
+    timestamp: now.toISOString(),
+    input,
+    output
+  };
+  const filename = path.join(LOGS_DIR, `${ts}.json`);
+  fs.writeFileSync(filename, JSON.stringify(record, null, 2), 'utf8');
+  console.log(`📝 已保存日志: ${filename}`);
+}
 
 function createOpenAIClient() {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -165,32 +182,42 @@ function createApp() {
       }
 
       const generated = await generateSolution(client, painPoint.trim(), lang || 'zh-CN', model);
-      return res.json({
-        success: true,
-        data: {
-          input: painPoint,
-          model: model || process.env.OPENAI_MODEL || 'gpt-4o-mini',
-          matchCount: 1,
-          aiEnabled: true,
-          solutions: [
-            {
-              score: 95,
-              industry: generated.industry,
-              solution: generated.solution,
-              aiAnalysis: {
-                reasoning: generated.reasoning,
-                confidence: 0.95,
-                customRecommendation: generated.reasoning,
-                generatedByAI: true
-              }
+      const responseData = {
+        input: painPoint,
+        model: model || process.env.OPENAI_MODEL || 'gpt-4o-mini',
+        matchCount: 1,
+        aiEnabled: true,
+        solutions: [
+          {
+            score: 95,
+            industry: generated.industry,
+            solution: generated.solution,
+            aiAnalysis: {
+              reasoning: generated.reasoning,
+              confidence: 0.95,
+              customRecommendation: generated.reasoning,
+              generatedByAI: true
             }
-          ]
-        }
-      });
+          }
+        ]
+      };
+
+      saveLog(
+        { painPoint, lang: lang || 'zh-CN', model: model || process.env.OPENAI_MODEL },
+        responseData
+      );
+
+      return res.json({ success: true, data: responseData });
     } catch (error) {
       console.error('❌ 生成失败:', error.message);
       console.error('   status:', error.status);
       console.error('   code:', error.code);
+
+      saveLog(
+        { painPoint, lang: lang || 'zh-CN', model: model || process.env.OPENAI_MODEL },
+        { error: error.message }
+      );
+
       return res.status(500).json({ success: false, error: error.message || '生成失败' });
     }
   });

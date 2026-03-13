@@ -712,3 +712,104 @@ footer {
   font-weight: 500;
   color: var(--text-muted);
 }
+
+/* ===== Facebook Follow Modal ===== */
+.fb-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fb-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+}
+.fb-modal-content {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+  animation: modalIn 0.35s ease-out;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.fb-modal-content h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+.fb-modal-content p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.fb-qr-wrapper {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  display: inline-block;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+.fb-qr-img {
+  width: 180px;
+  height: 180px;
+  display: block;
+}
+.fb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #1877f2;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  margin-bottom: 24px;
+}
+.fb-link:hover {
+  text-decoration: underline;
+}
+.fb-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fb-confirm-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #1877f2, #0d5bbd);
+  color: #fff;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.fb-confirm-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(24, 119, 242, 0.4);
+}
+.fb-skip-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px;
+}
+.fb-skip-btn:hover {
+  color: var(--text-primary);
+}

@@ -26,7 +26,11 @@ const i18n = {
     person: '人',
     emptyInput: '请输入您的业务痛点',
     error: '错误：',
-    requestFailed: '请求失败：'
+    requestFailed: '请求失败：',
+    followTitle: '关注我们获取方案',
+    followDesc: '扫描下方二维码关注我们的 Facebook 专页，即可免费查看完整解决方案',
+    followBtn: '我已关注，查看方案',
+    followSkip: '稍后再说'
   },
   'zh-TW': {
     title: 'AI 解決方案生成器',
@@ -54,7 +58,11 @@ const i18n = {
     person: '人',
     emptyInput: '請輸入您的業務痛點',
     error: '錯誤：',
-    requestFailed: '請求失敗：'
+    requestFailed: '請求失敗：',
+    followTitle: '關注我們獲取方案',
+    followDesc: '掃描下方二維碼關注我們的 Facebook 專頁，即可免費查看完整解決方案',
+    followBtn: '我已關注，查看方案',
+    followSkip: '稍後再說'
   },
   'en': {
     title: 'AI Solution Generator',
@@ -82,7 +90,11 @@ const i18n = {
     person: '',
     emptyInput: 'Please enter your business pain point',
     error: 'Error: ',
-    requestFailed: 'Request failed: '
+    requestFailed: 'Request failed: ',
+    followTitle: 'Follow Us to View Solution',
+    followDesc: 'Scan the QR code below to follow our Facebook page and unlock your free solution',
+    followBtn: 'I\'ve Followed, Show Solution',
+    followSkip: 'Maybe Later'
   }
 };
 
@@ -129,6 +141,38 @@ const API_BASE = window.location.hostname === 'localhost' || window.location.hos
   ? 'http://localhost:3000/api'
   : '/api';
 
+const FB_PAGE_URL = 'https://www.facebook.com/yuniaifreelance';
+const FB_QR_API = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(FB_PAGE_URL)}`;
+
+let pendingResultData = null;
+
+function showFbModal() {
+  const modal = document.getElementById('fbModal');
+  document.getElementById('fbModalTitle').textContent = t('followTitle');
+  document.getElementById('fbModalDesc').textContent = t('followDesc');
+  document.getElementById('fbConfirmBtn').textContent = t('followBtn');
+  document.getElementById('fbSkipBtn').textContent = t('followSkip');
+  document.getElementById('fbQrCode').src = FB_QR_API;
+  modal.style.display = 'flex';
+}
+
+function hideFbModal() {
+  document.getElementById('fbModal').style.display = 'none';
+}
+
+document.getElementById('fbConfirmBtn').addEventListener('click', () => {
+  hideFbModal();
+  if (pendingResultData) {
+    displayResults(pendingResultData);
+    pendingResultData = null;
+  }
+});
+
+document.getElementById('fbSkipBtn').addEventListener('click', () => {
+  hideFbModal();
+  pendingResultData = null;
+});
+
 document.getElementById('matchBtn').addEventListener('click', async () => {
   const painPoint = document.getElementById('painPointInput').value.trim();
 
@@ -149,14 +193,16 @@ document.getElementById('matchBtn').addEventListener('click', async () => {
     const result = await response.json();
 
     if (result.success) {
-      displayResults(result.data);
+      pendingResultData = result.data;
+      showLoading(false);
+      showFbModal();
     } else {
+      showLoading(false);
       alert(t('error') + result.error);
     }
   } catch (error) {
-    alert(t('requestFailed') + error.message);
-  } finally {
     showLoading(false);
+    alert(t('requestFailed') + error.message);
   }
 });
 
