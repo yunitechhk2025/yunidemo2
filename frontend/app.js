@@ -173,6 +173,11 @@ document.getElementById('fbSkipBtn').addEventListener('click', () => {
   pendingResultData = null;
 });
 
+document.getElementById('fbCloseBtn').addEventListener('click', () => {
+  hideFbModal();
+  pendingResultData = null;
+});
+
 document.getElementById('matchBtn').addEventListener('click', async () => {
   const painPoint = document.getElementById('painPointInput').value.trim();
 
